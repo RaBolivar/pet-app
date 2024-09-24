@@ -1,23 +1,23 @@
 import { Component } from '@angular/core';
 import { UserService } from '../../services/user.service';
 import { User } from '../../user';
+import { CommonModule } from '@angular/common'; 
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-user',
   standalone: true,
-  imports: [],
+  imports: [CommonModule],
   templateUrl: './user.component.html',
   styleUrl: './user.component.css'
 })
 export class UserComponent {
-  users: User[] = [];
+  public users: Observable<User[]> | undefined;
 
   constructor(private userService: UserService){}
 
   ngOnInit(){
-    this.userService.getUsers().subscribe((data) => {
-      this.users = data;
-      console.log("List of users:", this.users);
-    });
+    this.users = this.userService.getUsers();
+    console.log(this.users)
   }
 }
