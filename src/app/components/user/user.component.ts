@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { UserService } from '../../services/user.service';
+import { User } from '../../user';
 
 @Component({
   selector: 'app-user',
@@ -8,5 +10,14 @@ import { Component } from '@angular/core';
   styleUrl: './user.component.css'
 })
 export class UserComponent {
-  testing: string = "testing";
+  users: User[] = [];
+
+  constructor(private userService: UserService){}
+
+  ngOnInit(){
+    this.userService.getUsers().subscribe((data) => {
+      this.users = data;
+      console.log("List of users:", this.users);
+    });
+  }
 }
